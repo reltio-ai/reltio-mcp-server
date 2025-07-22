@@ -1,0 +1,26 @@
+FROM python:3.13-alpine
+
+RUN mkdir -p /app
+WORKDIR /app
+
+# Create application user and set up environment
+RUN adduser -D -u 1001 -h /app appuser && \
+    chown -R appuser:appuser /app
+
+COPY main.py /app/
+COPY src /app/src
+COPY tests /app/tests
+COPY requirements_tests.txt /app/
+COPY run_tests.sh /app/
+COPY .env /app/
+
+RUN apk add --no-cache dos2unix bash
+RUN dos2unix run_tests.sh
+RUN chmod +x run_tests.sh
+RUN pip install -r requirements_tests.txt
+
+# Switch to non-root user
+USER appuser
+
+ENTRYPOINT []
+CMD ["./run_tests.sh", "--coverage"]

@@ -1,0 +1,8 @@
+services:
+  reltio_mcp_server_test:
+    container_name: reltio_mcp_server_test
+    build:
+      context: ./
+      dockerfile: Dockerfile.test.unit
+    env_file:
+      - .env
