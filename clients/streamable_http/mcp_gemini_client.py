@@ -21,7 +21,6 @@ CLIENT_ID ="client_id" #reltio client id
 CLIENT_SECRET ="client_secret" #reltio client secret
 TOKEN_URL = "https://auth.reltio.com" #reltio auth server url for prod: https://auth.reltio.com, for stg: https://auth-stg.reltio.com
 NAMESPACE = "namespace" #reltio namespace eg test prod, etc
-MCP_SERVER_URL = f"https://{NAMESPACE}.reltio.com/ai/tools/mcp/" # Full URL like https://<ns>.reltio.com/ai/tools/mcp/
 GOOGLE_API_KEY = "MODEL_API_KEY" #model api key
 
 
@@ -50,7 +49,7 @@ class MCPChatClient:
         self.gemini = genai.Client(api_key=GOOGLE_API_KEY)
         self.history: Deque[types.Content] = deque(maxlen=MESSAGE_HISTORY_LIMIT)
 
-    async def connect(self, server_url: str = MCP_SERVER_URL) -> None:
+    async def connect(self, server_url: str) -> None:
         headers = {"Authorization": f"Bearer {self.token}"}
         self._streams_ctx = streamablehttp_client(url=server_url, headers=headers)
         read_stream, write_stream, _ = await self._streams_ctx.__aenter__()
@@ -166,7 +165,8 @@ class MCPChatClient:
 async def main() -> None:
     client = MCPChatClient()
     try:
-        await client.connect()
+        mcp_server_url = f"https://{NAMESPACE}.reltio.com/ai/tools/mcp/" # Full URL like https://<ns>.reltio.com/ai/tools/mcp/
+        await client.connect(server_url=mcp_server_url)
         await client.chat_loop()
     finally:
         await client.cleanup()
