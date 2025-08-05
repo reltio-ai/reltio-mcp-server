@@ -29,8 +29,8 @@ from langgraph.prebuilt import create_react_agent
 # ─────────── Configuration Constants ───────────
 
 NAMESPACE="reltio_namespace" #namespace of the reltio instance
-RELTIO_CLIENT_ID = "client_id"#client id of the reltio instance you can use reltio_ui
-RELTIO_CLIENT_SECRET = "client_secret"#client secret of the reltio instance you can use makita
+RELTIO_CLIENT_ID = "client_id"#client id of the reltio instance
+RELTIO_CLIENT_SECRET = "client_secret"#client secret of the reltio instance
 
 # User Configuration - Only these need to be set by user
 MODEL_ID = "anthropic:claude-3-5-sonnet-20241022"  # model id should be in the format of provider:model_id example: anthropic:claude-3-5-sonnet-20241022,google_genai:gemini-2.0-flash-001,openai:gpt-4o-mini
@@ -157,8 +157,7 @@ def run_temp_server(port: int = 8123, client_id: str = "reltio_ui", auth_endpoin
             if auth_endpoint:
                 auth_url = f"{auth_endpoint}?client_id={client_id}&redirect_uri=http://localhost:{current_port}/callback&response_type=code"
             else:
-                auth_url = f"https://login-stg.reltio.com?client_id={client_id}&redirect_uri=http://localhost:{current_port}/callback&response_type=code"
-            
+                auth_url = f"https://login.reltio.com?client_id={client_id}&redirect_uri=http://localhost:{current_port}/callback&response_type=code"
             print(f"🌐 Starting OAuth server on http://localhost:{current_port}/callback ...")
             time.sleep(0.5)  # Ensure server is ready
             webbrowser.open(auth_url)
