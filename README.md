@@ -7,14 +7,15 @@
 ---
 
 ## Table of Contents
-- [Available Tools](#-available-tools)
-- [Environment Configuration](#-environment-configuration)
-- [Server Prerequisites](#-server-prerequisites)
-- [Client Prerequisites](#-client-prerequisites)
-- [Running the Server](#-running-the-server)
-- [Integration with Claude Desktop App](#-integration-with-claude-desktop-app)
-- [Custom MCP Client Integration](#-custom-mcp-client-integration)
-- [Testing](#-testing)
+- [Available Tools](#available-tools)
+- [Environment Configuration](#environment-configuration)
+- [Server Prerequisites](#server-prerequisites)
+- [Client Prerequisites](#client-prerequisites)
+- [Running the Server](#running-the-server)
+- [Integration with Claude Desktop App](#integration-with-claude-desktop-app)
+- [Custom MCP Client Integration](#custom-mcp-client-integration)
+- [Testing](#testing)
+- [Agent Client](#agent-client)
 
 ---
 
@@ -265,5 +266,50 @@ pip install -r requirements_tests.txt
 - `tests/unit/test_server_error_handling.py`
 - `tests/unit/test_tools_activity.py`
 - `tests/unit/test_main.py`
+
+---
+
+## Agent Client
+
+A CLI chat bot that connects to Reltio MCP server using OAuth 2.0 authentication and provides an interactive interface for querying Reltio data.
+
+### Prerequisites
+
+```bash
+cd clients/agent_with_mcp
+pip install -r requirements.txt
+```
+
+### Configuration
+
+Edit the configuration constants in `agent_client.py`:
+
+```python
+# Reltio Configuration
+NAMESPACE = "your_namespace"  # Your Reltio namespace
+RELTIO_CLIENT_ID = "your_client_id"  # Your Reltio client ID
+RELTIO_CLIENT_SECRET = "your_client_secret"  # Your Reltio client secret
+
+# Model Configuration
+MODEL_ID = "anthropic:claude-3-5-sonnet-20241022"  # Supported: anthropic, google_genai, openai
+API_KEY = "your_api_key"  # API key for the model provider
+```
+
+### Running the Agent Client
+
+```bash
+python agent_client.py
+```
+
+The client will:
+1. Open a browser for OAuth authentication
+2. Establish connection to Reltio MCP server
+3. Provide an interactive chat interface
+
+### Supported Models
+
+- **Anthropic**: `anthropic:claude-3-5-sonnet-20241022`
+- **Google**: `google_genai:gemini-2.0-flash-001`
+- **OpenAI**: `openai:gpt-4o-mini`
 
 ---
