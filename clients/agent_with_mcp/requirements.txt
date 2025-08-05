@@ -1,0 +1,18 @@
+# Core LangChain stack
+langchain
+langchain-core
+langgraph
+
+#model support
+langchain-anthropic
+langchain-google-genai
+langchain-openai
+anthropic
+
+# LangChain MCP adapter (for streamable_http transport)
+langchain-mcp-adapters
+# pydantic v2 but below v2.6 to avoid MRO issue
+pydantic
+
+# Environment variable loading
+python-dotenv
