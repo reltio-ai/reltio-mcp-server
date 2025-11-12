@@ -563,8 +563,8 @@ class TestStartProcessInstance:
     async def test_start_process_instance_success(self, mock_request_model, mock_validate, mock_headers, mock_request, mock_log):
         """Test successful process instance start"""
         mock_request_obj = MagicMock()
-        mock_request_obj.processType = PROCESS_TYPE
-        mock_request_obj.objectURIs = OBJECT_URIS
+        mock_request_obj.process_type = PROCESS_TYPE
+        mock_request_obj.object_uris = OBJECT_URIS
         mock_request_obj.tenant_id = TENANT_ID
         mock_request_obj.comment = None
         mock_request_obj.variables = None

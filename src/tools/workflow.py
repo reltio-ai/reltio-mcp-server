@@ -659,8 +659,8 @@ async def start_process_instance(
         try:
             request = StartProcessInstanceRequest(
                 tenant_id=tenant_id,
-                processType=process_type,
-                objectURIs=object_uris,
+                process_type=process_type,
+                object_uris=object_uris,
                 comment=comment,
                 variables=variables
             )
@@ -690,8 +690,8 @@ async def start_process_instance(
         
         # Prepare request body
         request_body = {
-            "processType": request.processType,
-            "objectURIs": request.objectURIs
+            "processType": request.process_type,
+            "objectURIs": request.object_uris
         }
         
         # Add optional fields if provided
@@ -730,8 +730,8 @@ async def start_process_instance(
         # Build response with process instance details
         result = {
             "processInstanceId": process_response.get("processInstanceId", ""),
-            "processType": request.processType,
-            "objectURIs": request.objectURIs,
+            "processType": request.process_type,
+            "objectURIs": request.object_uris,
             "status": process_response.get("status", "STARTED"),
         }
         
