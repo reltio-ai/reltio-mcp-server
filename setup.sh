@@ -2,54 +2,32 @@
 
 set -e
 
-echo "Checking Python version..."
-if ! python3 -c 'import sys; exit(not (sys.version_info >= (3,10)))' 2>/dev/null; then
-  echo "Python 3.10+ is required. Please install it from https://www.python.org/downloads/"
+echo "Using uv to manage Python and virtualenv (uv is required)..."
+if command -v uv >/dev/null 2>&1; then
+    echo "Found uv. Ensuring Python 3.13 and virtualenv via uv..."
+    uv python install 3.13 || true
+    if [ ! -d ".venv" ]; then
+        uv venv -p 3.13 .venv
+    else
+        echo "Virtual environment .venv already exists."
+    fi
+    PYTHON=".venv/bin/python"
+else
+    echo "uv not found. Please install uv before running this script: https://pypa.github.io/uv/"
+    exit 1
+fi
+
+# Verify the selected Python is >= 3.13
+if ! $PYTHON -c 'import sys; exit(not (sys.version_info >= (3,13)))' 2>/dev/null; then
+  echo "Python 3.13+ is required. Please check the installation."
   exit 1
 fi
 
-# 2. Setup venv
-if [ ! -d ".venv" ]; then
-    echo "Creating virtual environment..."
-    
-    # Create and activate virtual environment
-    python3 -m venv .venv
-else
-    echo "Virtual environment .venv already exists."
-fi    
 # Activate existing virtual environment
 source ./.venv/bin/activate
 
 # 3. Install MCP & requirements
-echo "Installing dependencies..."
-if ! command -v uv &> /dev/null; then
-    echo "uv not found, installing..."
-    
-    # Install Homebrew if not already installed
-    if ! command -v brew >/dev/null 2>&1; then
-        echo "Homebrew not found. Installing..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-        # Add Homebrew to PATH
-        if [[ $(uname -m) == "arm64" ]]; then
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        else
-            echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.bash_profile
-            eval "$(/usr/local/bin/brew shellenv)"
-        fi
-    else
-        echo "Homebrew is already installed."
-    fi
-
-    echo "Installing uv with Homebrew..."
-    brew install uv
-    echo ""
-else
-    echo "uv is already installed."
-fi
-
-pip install mcp
+echo "Installing dependencies using uv..."
 uv add "mcp[cli]" httpx requests
 
 # 5. Run the MCP server
