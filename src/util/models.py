@@ -201,8 +201,6 @@ class EntitySearchRequest(BaseModel):
             # Check for balanced parentheses
             if v.count('(') != v.count(')'):
                 raise ValueError("Unbalanced parentheses in filter expression")
-            # Sanitize the filter expression
-            v = re.sub(r'[<>\'";]', '', v)
         return v
     
     @field_validator('order')
