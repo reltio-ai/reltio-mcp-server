@@ -169,7 +169,7 @@ async def search_entities_tool(filter: str, entity_type: str,
             search_entities_tool(filter="range(attributes.Age,18,25)", entity_type="Individual")
         """
     if filter and entity_type:
-            filter = f"{filter} and equals(type,'configuration/entityTypes/{entity_type}')"
+            filter = f"({filter}) and equals(type,'configuration/entityTypes/{entity_type}')"
     elif entity_type:
         filter = f"equals(type,'configuration/entityTypes/{entity_type}')"
     if not select or select.strip() == "":

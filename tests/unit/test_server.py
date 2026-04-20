@@ -37,7 +37,7 @@ class TestSearchEntitiesEndpoint:
         
         # Verify the tool was called with correct parameters
         mock_search_entities.assert_called_once_with(
-            "filter and equals(type,'configuration/entityTypes/entity_type')", 'entity_type', 'tenant_id', 10, '', 'asc', 'uri,label', 'ovOnly', 'active', 0
+            "(filter) and equals(type,'configuration/entityTypes/entity_type')", 'entity_type', 'tenant_id', 10, '', 'asc', 'uri,label', 'ovOnly', 'active', 0
         )
         assert result == {"results": []}
         
@@ -57,7 +57,7 @@ class TestSearchEntitiesEndpoint:
         
         # Verify the tool was called with correct parameters
         mock_search_entities.assert_called_once_with(
-            "test filter and equals(type,'configuration/entityTypes/Individual')", 'Individual', 'test-tenant', 10, '', 'asc', 'uri,label', 'ovOnly', 'active', 0
+            "(test filter) and equals(type,'configuration/entityTypes/Individual')", 'Individual', 'test-tenant', 10, '', 'asc', 'uri,label', 'ovOnly', 'active', 0
         )
         assert result == {"results": ["entity1"]}
 

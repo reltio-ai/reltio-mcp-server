@@ -63,3 +63,4 @@ htmlcov/
 coverage.xml
 .tox/
 .nox/
+/.vscode
