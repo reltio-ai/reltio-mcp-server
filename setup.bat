@@ -17,11 +17,11 @@ for /f "tokens=1,2 delims=." %%a in ("%PY_VER%") do (
 
 :: Compare versions
 if %PY_MAJOR% LSS 3 (
-    echo Python version must be 3.10 or higher.
+    echo Python version must be 3.13 or higher.
     exit /b 1
 )
-if %PY_MAJOR%==3 if %PY_MINOR% LSS 10 (
-    echo Python version must be 3.10 or higher.
+if %PY_MAJOR%==3 if %PY_MINOR% LSS 13 (
+    echo Python version must be 3.13 or higher.
     exit /b 1
 )
 
